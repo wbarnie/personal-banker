@@ -1,10 +1,11 @@
 {
     "transactions" : [ {
-      "transactionDate" : "2018-05-03T16:05:24.093+0000",
+      "transactionKey" : 1,
+      "accountNumber" : "X68935776",
+      "transactionDate" : "2018-05-03",
       "amount" : 23.45,
       "checkNumber" : null,
       "memo" : "Deposit into savings account",
-      "runningBalance" : 12353.67,
       "returned" : false,
       "processed" : false,
       "createdUserId" : "SYSTEM",
@@ -26,11 +27,12 @@
         }
       }
     }, {
-      "transactionDate" : "2018-05-03T16:05:24.093+0000",
+      "transactionKey" : 2,
+      "accountNumber" : "X68935776",
+      "transactionDate" : "2018-05-03",
       "amount" : 50.75,
       "checkNumber" : null,
       "memo" : "Deposit into savings account",
-      "runningBalance" : 12302.92,
       "returned" : false,
       "processed" : false,
       "createdUserId" : "SYSTEM",
@@ -52,7 +54,9 @@
         }
       }
     }, {
-      "transactionDate" : "2018-05-03T16:05:24.093+0000",
+      "transactionKey" : 3,
+      "accountNumber" : "X68935776",
+      "transactionDate" : "2018-05-03",
       "amount" : 101.45,
       "checkNumber" : null,
       "memo" : "Deposit into savings account",
@@ -78,7 +82,9 @@
         }
       }
     }, {
-      "transactionDate" : "2018-05-03T16:05:24.093+0000",
+      "transactionKey" : 4,
+      "accountNumber" : "X68935776",
+      "transactionDate" : "2018-05-03",
       "amount" : 50.0,
       "checkNumber" : null,
       "memo" : "Deposit",
@@ -104,7 +110,9 @@
         }
       }
     }, {
-      "transactionDate" : "2018-05-03T16:05:24.093+0000",
+      "transactionKey" : 5,
+      "accountNumber" : "X68935776",
+      "transactionDate" : "2018-05-03",
       "amount" : 43.56,
       "checkNumber" : 101,
       "memo" : "Deposit",
@@ -130,7 +138,9 @@
         }
       }
     }, {
-      "transactionDate" : "2018-05-03T16:05:24.093+0000",
+      "transactionKey" : 6,
+      "accountNumber" : "X68935776",
+      "transactionDate" : "2018-05-03",
       "amount" : 150.0,
       "checkNumber" : null,
       "memo" : "Deposit",
@@ -156,7 +166,9 @@
         }
       }
     }, {
-      "transactionDate" : "2018-05-03T16:05:24.093+0000",
+      "transactionKey" : 7,
+      "accountNumber" : "X68935776",
+      "transactionDate" : "2018-05-03",
       "amount" : 25.0,
       "checkNumber" : null,
       "memo" : "Deposit",
@@ -182,7 +194,9 @@
         }
       }
     }, {
-      "transactionDate" : "2018-05-03T16:05:24.093+0000",
+      "transactionKey" : 8,
+      "accountNumber" : "X68935776",
+      "transactionDate" : "2018-05-03",
       "amount" : 10.0,
       "checkNumber" : null,
       "memo" : "Deposit",
@@ -208,7 +222,9 @@
         }
       }
     }, {
-      "transactionDate" : "2018-05-03T16:05:24.093+0000",
+      "transactionKey" : 9,
+      "accountNumber" : "X68935776",
+      "transactionDate" : "2018-05-03",
       "amount" : 50.0,
       "checkNumber" : 102,
       "memo" : "Deposit",
@@ -235,6 +251,7 @@
       }
     } ],
       "accounts" : [ {
+        "accountKey" : 1,
         "accountNumber" : "X65893565",
         "balance" : 12353.67,
         "bankName" : "Fidelity",
@@ -260,6 +277,7 @@
           }
         }
       }, {
+        "accountKey" : 2,
         "accountNumber" : "X68935776",
         "balance" : 2353.67,
         "bankName" : "Fidelity",

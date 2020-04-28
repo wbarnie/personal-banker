@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Account} from '../shared/account.model';
 import {AccountsService} from '../accounts.service';
 
@@ -9,23 +9,25 @@ import {AccountsService} from '../accounts.service';
 })
 export class AccountsComponent implements OnInit {
   accounts: Account[];
-  @Output() selectedAccount = new EventEmitter<Account>();
   accountNumber = '';
   account: Account;
 
-  constructor(private accountService: AccountsService) {
+  constructor(private accountsService: AccountsService) {
   }
 
   ngOnInit(): void {
-    this.accounts = this.accountService.getAccounts();
+    this.accounts = this.accountsService.getAccounts();
   }
 
   onAccountSelected(element) {
-    const value = element.target.value;
     this.accountNumber = element.target.value;
-    this.account = this.accounts.find(account => account.accountNumber === this.accountNumber);
-    this.selectedAccount.emit(this.account);
+    if (this.accountNumber !== '') {
+      this.account = this.accounts.find(account => account.accountNumber === this.accountNumber);
+      console.log('About To Emit, account', this.account.accountNumber);
+      this.accountsService.accountSelected.emit(this.account);
+      console.log('Emit Complete');
+    } else {
+      this.accountsService.accountSelected.emit(undefined);
+    }
   }
-
-
 }

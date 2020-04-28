@@ -1,17 +1,39 @@
-
 <hr>
 <label>Account</label>
-<select  (change)="onAccountSelected($event)" ngModel="accountNumber">
-  <option value="">select an account</option>
-  <option *ngFor="let account of accounts" [value]="account.accountNumber">{{account.accountNumber}}</option>
+<select (change)="onAccountSelected($event)" >
+  <option value="" >select an account</option>
+  <option *ngFor="let account of accounts" [value]="account.accountNumber">{{account.accountNumber}} {{account.accountName}}</option>
 </select>
 <hr>
-{{accountNumber}}
 
-<div *ngif="accountNumber !== ''" >
-<label class="full-width">Name</label>&nbsp;{{account.bankName}}
-<label class="full-width">Balance</label>&nbsp;{{account.balance}}
+<div *ngIf="accountNumber !== ''; else infoText">
+  <div class="row">
+    <div class="col-md-5">
+      {{accountNumber}}
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-5">
+      <label class="full-width">Name: </label>&nbsp;{{account.bankName}}
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-5">
+      <label class="full-width">Account Name: </label>&nbsp;{{account.accountName}}
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-5">
+      <label class="full-width">Balance: </label>&nbsp;{{account.balance}}
+    </div>
+  </div>
+</div>
+<ng-template #infoText>
+  <p>Please select an Account!</p>
+</ng-template>
+
+<div *ngIf="accountNumber !== ' '">
+<app-transactions ></app-transactions>
 </div>
 
 
-<app-transactions></app-transactions>

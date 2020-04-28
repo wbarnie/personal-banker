@@ -1,14 +1,13 @@
-import {Injectable} from '@angular/core';
+import {EventEmitter, Injectable} from '@angular/core';
 import {Account} from './shared/account.model';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class AccountsService {
+  accountSelected = new EventEmitter<Account>();
   private accounts: Account[] = [
-    new Account('100102', 250.34, 'bank 1', '1234', '', '', '', '', ''),
-    new Account('100103', 250.34, 'bank 2', '5678', '', '', '', '', ''),
-    new Account('100104', 550.34, 'bank 2', '91234', '', '', '', '', '')
+    new Account(1, '100102', 250.34, 'bank 1', 'checking', '1234', '', '', '', '', ''),
+    new Account(2, '100103', 500.34, 'bank 2', 'brokerage', '5678', '', '', '', '', ''),
+    new Account(3, '100104', 550.34, 'bank 3', 'savings', '91234', '', '', '', '', '')
   ];
 
   constructor() {
