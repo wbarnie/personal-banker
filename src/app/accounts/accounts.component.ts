@@ -12,7 +12,6 @@ export class AccountsComponent implements OnInit {
   accounts: Account[];
   accountNumber = '';
   account: Account;
-
   constructor(private accountsService: AccountsService, private route: ActivatedRoute,
               private router: Router) {
   }
