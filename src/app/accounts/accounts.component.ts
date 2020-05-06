@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Account} from '../shared/account.model';
 import {AccountsService} from '../accounts.service';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
   selector: 'app-accounts',
@@ -12,7 +13,8 @@ export class AccountsComponent implements OnInit {
   accountNumber = '';
   account: Account;
 
-  constructor(private accountsService: AccountsService) {
+  constructor(private accountsService: AccountsService, private route: ActivatedRoute,
+              private router: Router) {
   }
 
   ngOnInit(): void {
@@ -23,11 +25,16 @@ export class AccountsComponent implements OnInit {
     this.accountNumber = element.target.value;
     if (this.accountNumber !== '') {
       this.account = this.accounts.find(account => account.accountNumber === this.accountNumber);
-      console.log('About To Emit, account', this.account.accountNumber);
-      this.accountsService.accountSelected.emit(this.account);
-      console.log('Emit Complete');
+      this.accountsService.accountSelected.next(this.account);
     } else {
-      this.accountsService.accountSelected.emit(undefined);
+      this.accountsService.accountSelected.next(undefined);
+      this.account = undefined;
+    }
+  }
+
+  onEditAccount() {
+    if (this.account !== undefined) {
+      this.router.navigate(['.', 'edit', this.accountNumber], {relativeTo: this.route});
     }
   }
 }

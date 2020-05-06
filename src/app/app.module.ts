@@ -13,6 +13,8 @@ import {AccountsService} from './accounts.service';
 import {TransactionDetailComponent} from './accounts/transactions/transaction-detail/transaction-detail.component';
 import {FormsModule} from '@angular/forms';
 import {TransactionsService} from './accounts/transactions.service';
+import {AppRoutingModule} from './app-routing.module';
+import { DropdownDirective } from './shared/dropdown.directive';
 
 @NgModule({
   declarations: [
@@ -24,11 +26,13 @@ import {TransactionsService} from './accounts/transactions.service';
     AccountAddComponent,
     TransactionAddComponent,
     TransactionEditComponent,
-    TransactionDetailComponent
+    TransactionDetailComponent,
+    DropdownDirective
   ],
   imports: [
     BrowserModule,
     FormsModule,
+    AppRoutingModule,
   ],
   providers: [AccountsService, TransactionsService],
   bootstrap: [AppComponent]

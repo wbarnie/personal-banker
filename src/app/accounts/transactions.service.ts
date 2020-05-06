@@ -22,8 +22,7 @@ export class TransactionsService {
   constructor() {
   }
   getTransactions(accountNbr: string): Transaction[] {
-    return this.transactions.slice();
-    // return this.transactions.find(tran => tran.accountNumber == accountNbr);
-
+    return this.transactions.filter(
+      transaction => transaction.accountNumber === accountNbr);
   }
 }
