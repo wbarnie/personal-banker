@@ -4,6 +4,7 @@ import {AccountsService} from '../../accounts.service';
 import {Account} from '../../shared/account.model' ;
 import {Transaction} from '../../shared/transaction.model';
 import {Subscription} from 'rxjs';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
   selector: 'app-transactions',
@@ -15,7 +16,8 @@ export class TransactionsComponent implements OnInit, OnDestroy {
   transactions: Transaction[];
   private accountServiceSubscription: Subscription;
 
-  constructor(private accountsService: AccountsService, private transactionSerivce: TransactionsService) {
+  constructor(private accountsService: AccountsService, private transactionSerivce: TransactionsService, private route: ActivatedRoute,
+              private router: Router) {
   }
 
   ngOnInit(): void {
@@ -35,7 +37,13 @@ export class TransactionsComponent implements OnInit, OnDestroy {
         }
       );
   }
+
   ngOnDestroy(): void {
     this.accountServiceSubscription.unsubscribe();
+  }
+
+  onTransactionEdit(transactionKey: string) {
+    console.log('onTransactionEdit: ' + transactionKey);
+    this.router.navigate(['transaction/edit', transactionKey], {relativeTo: this.route});
   }
 }

@@ -1,11 +1,111 @@
-<div class="row">
-  <div class="col-md-5">
+<router-outlet>
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
+        <form [formGroup]="accountForm" (ngSubmit)="onSubmit()">
+          <h3>Edit Account</h3>
+          <!-- Bank Name  -->
+          <div class="form-group">
+            <label for="bankName">Bank Name</label>
+            <input
+              type="text"
+              id="bankName"
+              formControlName="bankName"
+              class="form-control">
+            <span
+              *ngIf="!accountForm.get('bankName').valid && accountForm.get('bankName').touched"
+              class="help-block">
+                               <span
+                                 *ngIf="accountForm.get('bankName').errors['bankName']">This name is invalid!</span>
+                               <span
+                                 *ngIf="accountForm.get('bankName').errors['required']">This field is required!</span>
+                             </span>
+          </div>
+          <!-- End Bank Name  -->
+          <!-- Account Name  -->
+          <div class="form-group">
+            <label for="accountname">Account Name</label>
+            <input
+              type="text"
+              id="accountName"
+              formControlName="accountName"
+              class="form-control">
+            <span
+              *ngIf="!accountForm.get('accountName').valid && accountForm.get('accountName').touched"
+              class="help-block">
+                    <span
+                      *ngIf="accountForm.get('accountName').errors['accountName']">This name is invalid!</span>
+                    <span
+                      *ngIf="accountForm.get('accountName').errors['required']">This field is required!</span>
+                  </span>
+          </div>
+          <!-- End Account Name  -->
+          <!-- Account Number  -->
+          <div class="form-group">
+            <label for="accountNumber">Account Number</label>
+            <input
+              type="text"
+              id="accountNumber"
+              formControlName="accountNumber"
+              class="form-control">
+            <span
+              *ngIf="!accountForm.get('accountNumber').valid && accountForm.get('accountNumber').touched"
+              class="help-block">Please enter a valid account number!</span>
+          </div>
+          <!-- End Account Number  -->
+          <!-- Balance  -->
+          <div class="form-group">
+            <label for="balance">Account Balance</label>
+            <input
+              type="number"
+              id="balance"
+              formControlName="balance"
+              class="form-control">
+            <span
+              *ngIf="!accountForm.get('balance').valid && accountForm.get('balance').touched"
+              class="help-block">
+                    <span
+                      *ngIf="accountForm.get('balance').errors['accountBalance']">Account balance is not valid!</span>
+                    <span
+                      *ngIf="accountForm.get('balance').errors['required']">Please enter account balance!</span>
+                  </span>
+          </div>
+          <!-- End Balance  -->
+          <!-- Check Number  -->
+          <div class="form-group">
+            <label for="checkNumber">Check Number Name</label>
+            <input
+              type="text"
+              id="checkNumber"
+              formControlName="checkNumber"
+              class="form-control">
+          </div>
+          <!-- End Check Number  -->
+          <!-- Account Type  -->
+          <div class="radio" *ngFor="let accountType of accountTypes">
+            <label>
+              <input
+                type="radio"
+                formControlName="accountType"
+                [value]="accountType">{{ accountType }}
+            </label>
+          </div>
+          <!-- Account Type  -->
+          <div class="col-sm-2">
+            <button class="btn btn-success btn-block" type="submit">Add</button>
+          </div>
+          <div class="col-sm-2">
+            <button class="btn btn-primary btn-block" type="button" (click)="onCancel()">Cancel</button>
+          </div>
+          <div class="row">
+            <div>
+                   <span
+                     *ngIf="!accountForm.valid && accountForm.touched"
+                     class="help-block error-msg">Please enter valid data!</span>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
   </div>
-  <div class="col-md-7">
-    <router-outlet></router-outlet>
-  </div>
-</div>
-
-
-
-<p>account-add works!</p>
+</router-outlet>

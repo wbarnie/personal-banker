@@ -1,5 +1,6 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 import {AppComponent} from './app.component';
 import {HeaderComponent} from './header/header.component';
@@ -11,7 +12,7 @@ import {TransactionAddComponent} from './accounts/transactions/transaction-add/t
 import {TransactionEditComponent} from './accounts/transactions/transaction-edit/transaction-edit.component';
 import {AccountsService} from './accounts.service';
 import {TransactionDetailComponent} from './accounts/transactions/transaction-detail/transaction-detail.component';
-import {FormsModule} from '@angular/forms';
+
 import {TransactionsService} from './accounts/transactions.service';
 import {AppRoutingModule} from './app-routing.module';
 import { DropdownDirective } from './shared/dropdown.directive';
@@ -33,6 +34,7 @@ import { DropdownDirective } from './shared/dropdown.directive';
     BrowserModule,
     FormsModule,
     AppRoutingModule,
+    ReactiveFormsModule,
   ],
   providers: [AccountsService, TransactionsService],
   bootstrap: [AppComponent]

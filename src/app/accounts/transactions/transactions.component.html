@@ -8,6 +8,7 @@
         *ngFor="let transaction of transactions"
       >
         {{ transaction.accountNumber }} ({{ transaction.amount }}) {{transaction.transactionDate}} {{transaction.checkNumber}} {{transaction.memo}}
+        <button class="btn btn-primary" type="button" (click)="onTransactionEdit(transaction.transactionKey)">Edit</button>
       </a>
     </ul>
   </div>

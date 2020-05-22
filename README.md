@@ -25,3 +25,12 @@ Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protrac
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+
+
+Deleting all Items in a FormArray
+As of Angular 8+, there's a new way of clearing all items in a FormArray.
+
+(<FormArray>this.recipeForm.get('ingredients')).clear();
+The clear() method automatically loops through all registered FormControls (or FormGroups) in the FormArray and removes them.
+
+It's like manually creating a loop and calling removeAt() for every item.
