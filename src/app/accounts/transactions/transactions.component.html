@@ -1,5 +1,4 @@
 <div class="row">
-  <div class="col-xs-10">
     <hr>
     <ul class="list-group">
       <a
@@ -7,9 +6,8 @@
         style="cursor: pointer"
         *ngFor="let transaction of transactions"
       >
-        {{ transaction.accountNumber }} ({{ transaction.amount }}) {{transaction.transactionDate}} {{transaction.checkNumber}} {{transaction.memo}}
-        <button class="btn btn-primary" type="button" (click)="onTransactionEdit(transaction.transactionKey)">Edit</button>
+        {{ transaction.id }} ({{ transaction.amount }}) {{transaction.transactionDate}} {{transaction.checkNumber}} {{transaction.memo}} {{transaction.transactionType}} {{transaction.processed}} {{transaction.returned}}
+        <button class="btn btn-primary" type="button" (click)="onTransactionEdit(transaction.id)">Edit</button>
       </a>
     </ul>
-  </div>
 </div>

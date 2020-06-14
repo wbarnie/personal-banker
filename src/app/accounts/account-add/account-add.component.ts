@@ -3,6 +3,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Account, AccountTypes} from '../../shared/account.model';
 import {AccountsService} from '../../accounts.service';
+import {DatePipe} from '@angular/common';
 
 @Component({
   selector: 'app-account-add',
@@ -12,7 +13,8 @@ import {AccountsService} from '../../accounts.service';
 export class AccountAddComponent implements OnInit{
   accountForm: FormGroup;
   accountTypes = ['Brokerage', 'Checking', 'Saving'];
-
+  today = new Date();
+  dateCreated = new DatePipe('en-US').transform(this.today, 'yyyy-dd-MM');
   constructor(private router: Router,
               private route: ActivatedRoute,
               private accountsService: AccountsService) {
@@ -20,23 +22,14 @@ export class AccountAddComponent implements OnInit{
 
   ngOnInit() {
     this.accountForm = new FormGroup({
-      /*'Account': new FormGroup({*/
         'bankName': new FormControl(null, [Validators.required, this.bankNameValidate.bind(this)]),
         'accountName': new FormControl(null, [Validators.required, this.accountNameValidate.bind(this)]),
         'accountNumber': new FormControl(null, [Validators.required]),
         'balance': new FormControl(null, [Validators.required, Validators.pattern('(?=.*?\\d)^\\$?(([1-9]\\d{0,2}(,\\d{3})*)|\\d+)?(\\.\\d{1,2})?$'), Validators.minLength(1)]),
         'accountType': new FormControl(null, [Validators.required]),
-        'checkNumber': new FormControl(null)
-     /* }),*/
+        'checkNumber': new FormControl(null),
+        'dateCreated': new FormControl(this.dateCreated)
     });
-
-    /*this.accountForm.valueChanges.subscribe(
-      (value) => console.log(value)
-    );*/
-
-    /*this.accountChangeSub = this.accountForm.statusChanges.subscribe(
-      (status) => console.log(status)
-    );*/
   }
 
   onSubmit() {

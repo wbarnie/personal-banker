@@ -1,18 +1,23 @@
+export enum TransactionTypes{
+  Check = 'Check',
+  Withdrawal = 'Withdrawal',
+  Void = 'Void'
+}
+
+import {AccountTypes} from './account.model';
+
 export class Transaction {
 
   constructor(
-      public transactionKey: number,
-      public accountNumber: string,
-      public transactionDate: Date,
-      public amount: number,
-      public checkNumber: string,
-      public memo: string,
-      public returned: boolean,
-      public processed: boolean,
-      public createdUserId: string,
-      public createdTimeStamp: string,
-      public modifiedUserId: string,
-      public modifiedTimeStamp: string) {
-    }
+    public id: string,
+    public accountId: string,
+    public transactionDate: Date,
+    public amount: number,
+    public checkNumber: string,
+    public memo: string,
+    public transactionType: TransactionTypes,
+    public returned: boolean,
+    public processed: boolean) {
+  }
 }
 

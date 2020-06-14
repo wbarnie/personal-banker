@@ -1,1 +1,125 @@
-<p>transaction-add works!</p>
+<div class="row">
+  <form [formGroup]="transactionForm" (ngSubmit)="onSubmit()">
+    <h3>Add Transaction</h3>
+    <!-- Account Id  -->
+    <input
+      type="hidden"
+      id="accountId"
+      formControlName="accountId"
+      class="form-control">
+    <!-- End Account Id  -->
+    <!-- transaction Date  -->
+    <div class="form-group">
+      <label for="transactionDate">Date</label>
+      <input
+        type="date"
+        id="transactionDate"
+        formControlName="transactionDate"
+        class="form-control">
+      <span
+        *ngIf="!transactionForm.get('transactionDate').valid && transactionForm.get('transactionDate').touched"
+        class="help-block">
+           <span
+             *ngIf="transactionForm.get('transactionDate').errors['transactionDate']">This name is invalid!</span>
+           <span
+             *ngIf="transactionForm.get('transactionDate').errors['required']">This field is required!</span>
+         </span>
+    </div>
+    <!-- transaction Date  -->
+    <!-- Amount  -->
+    <div class="form-group">
+      <label for="amount">Amount</label>
+      <input
+        type="number"
+        id="amount"
+        formControlName="amount"
+        class="form-control">
+      <span
+        *ngIf="!transactionForm.get('amount').valid && transactionForm.get('amount').touched"
+        class="help-block">
+          <span
+            *ngIf="transactionForm.get('amount').errors['amount']">This name is invalid!</span>
+          <span
+            *ngIf="transactionForm.get('amount').errors['required']">This field is required!</span>
+        </span>
+    </div>
+    <!-- End Amount  -->
+    <!-- Check Number  -->
+    <div class="form-group">
+      <label for="checkNumber">Check Number</label>
+      <input
+        type="text"
+        id="checkNumber"
+        formControlName="checkNumber"
+        class="form-control">
+      <span
+        *ngIf="!transactionForm.get('checkNumber').valid && transactionForm.get('checkNumber').touched"
+        class="help-block">Please enter a valid Check Number!</span>
+    </div>
+    <!-- End Check Number  -->
+    <!-- Memo  -->
+    <div class="form-group">
+      <label for="memo">Memo</label>
+      <input
+        type="text"
+        id="memo"
+        formControlName="memo"
+        class="form-control">
+      <span
+        *ngIf="!transactionForm.get('memo').valid && transactionForm.get('memo').touched"
+        class="help-block">
+          <span
+            *ngIf="transactionForm.get('memo').errors['memo']">Account balance is not valid!</span>
+          <span
+            *ngIf="transactionForm.get('memo').errors['required']">Please enter memo!</span>
+        </span>
+    </div>
+    <!-- End Memo  -->
+    <fieldset>
+      <legend>Transaction Type:</legend>
+      <!-- Transaction Type  -->
+      <div class="radio" *ngFor="let transactionType of transactionTypes">
+        <label>
+          <input
+            type="radio"
+            formControlName="transactionType"
+            [value]="transactionType">{{ transactionType }}
+        </label>
+      </div>
+      <!-- End Transaction Type  -->
+    </fieldset>
+    <!-- Returned  -->
+    <div class="custom-control custom-checkbox">
+      <input
+        type="checkbox"
+        id="returned"
+        formControlName="returned"
+        class="custom-control-input checkbox-margin">
+      <label for="returned">Returned</label>
+    </div>
+    <!-- End Returned  -->
+    <!-- Processed  -->
+    <div class="custom-control custom-checkbox">
+      <input
+        type="checkbox"
+        id="processed"
+        formControlName="processed"
+        class="custom-control-input checkbox-margin">
+      <label for="processed">Processed</label>
+    </div>
+    <!-- End Processed  -->
+    <div class="col-sm-2">
+      <button class="btn btn-success btn-block" type="submit">Add</button>
+    </div>
+    <div class="col-sm-3">
+      <button class="btn btn-primary btn-block" type="button" (click)="onCancel()">Cancel</button>
+    </div>
+    <div class="row">
+      <div>
+         <span
+           *ngIf="!transactionForm.valid && transactionForm.touched"
+           class="help-block error-msg">Please enter valid data!</span>
+      </div>
+    </div>
+  </form>
+</div>

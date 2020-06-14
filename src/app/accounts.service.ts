@@ -1,41 +1,92 @@
 import {Injectable} from '@angular/core';
 import {Account, AccountTypes} from './shared/account.model';
-import {Subject} from 'rxjs';
+import {Observable, Subject, throwError} from 'rxjs';
+import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
+import {catchError, map} from 'rxjs/operators';
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class AccountsService {
+  accountURL = 'https://personalbanker-34ced.firebaseio.com/accounts.json';
   accountSelected = new Subject<Account>();
-  accountsChanged = new Subject<Account[]>();
-  private accounts: Account[] = [
-    new Account('Bank one', 'Webster 5', '100102', 258.34, AccountTypes.Checking,  '1234'),
-    new Account('Bank two', 'Fidelity', '100103', 500.34, AccountTypes.Savings, ''),
-    new Account('Bank Three', 'Lemonster Credit Union', '100104', 550.34, AccountTypes.Brokerage, '')
-  ];
+  accountsArray = [];
+  error = new Subject<string>();
 
-  constructor() {
+  constructor(private http: HttpClient) {
   }
 
-  getAccounts() {
-    return this.accounts.slice();
+  getAccounts(): Observable<Account[]> {
+    this.accountsArray = [];
+    let searchParams = new HttpParams();
+    searchParams = searchParams.append('print', 'pretty');
+    searchParams = searchParams.append('custom', 'key');
+    return this.http
+      .get<{ [key: string]: Account }>(
+        this.accountURL,
+        {
+          headers: new HttpHeaders({'Custom-Header': 'Hello'}),
+          params: searchParams,
+          responseType: 'json'
+        }
+      )
+      .pipe(
+        map(responseData => {
+          for (const key in responseData) {
+            if (responseData.hasOwnProperty(key)) {
+              this.accountsArray.push({...responseData[key], id: key});
+            }
+          }
+          return this.accountsArray;
+        }),
+        catchError(errorRes => {
+          // Send to analytics server
+          return throwError(errorRes);
+        })
+      );
   }
 
-  getAccount(index: number): Account {
-    return this.accounts[index];
-    // return this.accounts.find(account => account.accountNumber === accountNbr);
+  getAccount(accountIndex: number): Account {
+    this.accountSelected.next(this.accountsArray[accountIndex]);
+    return this.accountsArray[accountIndex];
   }
 
   updateAccount(index: number, account: Account) {
-    this.accounts[index] = account;
-    this.accountsChanged.next(this.accounts.slice());
+    this.accountsArray[index] = account;
+
+    this.http
+      .put(
+        this.accountURL,
+        this.accountsArray
+      )
+      .subscribe(response => {
+        console.log(response);
+      });
   }
 
   deleteAccount(index: number) {
-    this.accounts.splice(index, 1);
-    this.accountsChanged.next(this.accounts.slice());
+    this.accountsArray.splice(index, 1);
+    this.http
+      .put(
+        this.accountURL,
+        this.accountsArray
+      )
+      .subscribe(response => {
+        console.log(response);
+      });
   }
 
   addAccount(account: Account) {
-    this.accounts.push(account);
-    this.accountsChanged.next(this.accounts.slice());
+    this.http
+      .post(
+        this.accountURL,
+        account
+      )
+      .subscribe(
+        responseData => {
+          console.log(responseData);
+        },
+        error => {
+          this.error.next(error.message);
+        }
+      );
   }
 }

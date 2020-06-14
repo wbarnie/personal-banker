@@ -12,6 +12,9 @@ export class Account {
     public accountNumber: string,
     public balance: number,
     public accountType: AccountTypes,
-    public checkNumber: string) {
+    public checkNumber: string,
+    public dateCreated: Date,
+    public id: string
+  ) {
   }
 }

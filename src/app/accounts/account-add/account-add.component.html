@@ -3,7 +3,7 @@
     <div class="row">
       <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
         <form [formGroup]="accountForm" (ngSubmit)="onSubmit()">
-          <h3>Edit Account</h3>
+          <h3>Add Account</h3>
           <!-- Bank Name  -->
           <div class="form-group">
             <label for="bankName">Bank Name</label>
@@ -81,16 +81,29 @@
               class="form-control">
           </div>
           <!-- End Check Number  -->
-          <!-- Account Type  -->
-          <div class="radio" *ngFor="let accountType of accountTypes">
-            <label>
-              <input
-                type="radio"
-                formControlName="accountType"
-                [value]="accountType">{{ accountType }}
-            </label>
+          <!-- Date Created  -->
+          <div class="form-group">
+            <input
+              type="hidden"
+              id="dateCreated"
+              formControlName="dateCreated"
+              class="form-control">
           </div>
-          <!-- Account Type  -->
+          <!-- End Date Created  -->
+          <fieldset>
+            <legend>Account Type:</legend>
+            <!-- Account Type  -->
+            <div class="radio" *ngFor="let accountType of accountTypes">
+              <label>
+                <input
+                  type="radio"
+                  formControlName="accountType"
+                  [value]="accountType">{{ accountType }}
+              </label>
+            </div>
+            <!-- End Account Type  -->
+          </fieldset>
+          <br/>
           <div class="col-sm-2">
             <button class="btn btn-success btn-block" type="submit">Add</button>
           </div>

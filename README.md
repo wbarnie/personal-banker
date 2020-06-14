@@ -34,3 +34,19 @@ As of Angular 8+, there's a new way of clearing all items in a FormArray.
 The clear() method automatically loops through all registered FormControls (or FormGroups) in the FormArray and removes them.
 
 It's like manually creating a loop and calling removeAt() for every item.
+
+For authentication:
+firebase: dataqbase rules 
+".read" : "auth != null",
+".write" : "auth != null"
+
+click publish
+
+firebase authentication
+select login email and password
+google firebase auth rest APIs 
+
+Go to firebase setting and click gear. 
+get web api key and add it to end point 
+
+https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=<API KEY>
