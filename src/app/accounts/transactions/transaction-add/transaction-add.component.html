@@ -1,13 +1,6 @@
 <div class="row">
   <form [formGroup]="transactionForm" (ngSubmit)="onSubmit()">
     <h3>Add Transaction</h3>
-    <!-- Account Id  -->
-    <input
-      type="hidden"
-      id="accountId"
-      formControlName="accountId"
-      class="form-control">
-    <!-- End Account Id  -->
     <!-- transaction Date  -->
     <div class="form-group">
       <label for="transactionDate">Date</label>

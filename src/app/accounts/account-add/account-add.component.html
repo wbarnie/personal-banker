@@ -1,9 +1,18 @@
-<router-outlet>
-  <div class="container">
+<!--<router-outlet>-->
+ <!-- <div class="container">-->
     <div class="row">
       <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
         <form [formGroup]="accountForm" (ngSubmit)="onSubmit()">
           <h3>Add Account</h3>
+          <!-- id  -->
+           <div class="form-group">
+             <input
+               type="hidden"
+               id="id"
+               formControlName="id"
+               class="form-control">
+           </div>
+           <!-- End Date Created  -->
           <!-- Bank Name  -->
           <div class="form-group">
             <label for="bankName">Bank Name</label>
@@ -90,6 +99,15 @@
               class="form-control">
           </div>
           <!-- End Date Created  -->
+          <!-- User Id -->
+                    <div class="form-group">
+                      <input
+                        type="hidden"
+                        id=userId
+                        formControlName="userId"
+                        class="form-control">
+                    </div>
+                    <!-- End User Id  -->
           <fieldset>
             <legend>Account Type:</legend>
             <!-- Account Type  -->
@@ -104,10 +122,10 @@
             <!-- End Account Type  -->
           </fieldset>
           <br/>
-          <div class="col-sm-2">
+          <div class="col-sm-4">
             <button class="btn btn-success btn-block" type="submit">Add</button>
           </div>
-          <div class="col-sm-2">
+          <div class="col-sm-4">
             <button class="btn btn-primary btn-block" type="button" (click)="onCancel()">Cancel</button>
           </div>
           <div class="row">
@@ -120,5 +138,5 @@
         </form>
       </div>
     </div>
-  </div>
-</router-outlet>
+ <!-- </div>-->
+<!--</router-outlet>-->

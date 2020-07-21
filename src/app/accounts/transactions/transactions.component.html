@@ -4,10 +4,10 @@
       <a
         class="list-group-item"
         style="cursor: pointer"
-        *ngFor="let transaction of transactions"
+        *ngFor="let transaction of transactions; let idx = index"
       >
-        {{ transaction.id }} ({{ transaction.amount }}) {{transaction.transactionDate}} {{transaction.checkNumber}} {{transaction.memo}} {{transaction.transactionType}} {{transaction.processed}} {{transaction.returned}}
-        <button class="btn btn-primary" type="button" (click)="onTransactionEdit(transaction.id)">Edit</button>
+        ({{ transaction.amount }}) {{transaction.transactionDate}} {{transaction.checkNumber}} {{transaction.memo}} {{transaction.transactionType}} {{transaction.processed}} {{transaction.returned}}
+        <button class="btn btn-primary" type="button" (click)="onTransactionEdit(idx)">Edit</button>
       </a>
     </ul>
 </div>

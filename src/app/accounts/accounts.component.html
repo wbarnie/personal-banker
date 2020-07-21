@@ -1,7 +1,7 @@
 <hr>
 <div class="row">
-  <div class="col-md-5">
-    <div class="collapse navbar-collapse">
+ <!-- <div class="col-md-5">-->
+    <!--<div class="collapse navbar-collapse">
           <ul class="nav navbar-nav navbar-right">
             <li class="dropdown" appDropdown>
               <a style="cursor: pointer;" class="dropdown-toggle" role="button">Manage <span class="caret"></span></a>
@@ -12,26 +12,21 @@
               </ul>
             </li>
           </ul>
-        </div>
-  </div>
+        </div>-->
+ <!-- </div>-->
 </div>
 <label>Account</label>
 <select (change)="onAccountSelected($event)">
   <option value="">select an account</option>
   <option *ngFor="let account of accounts"
-          [value]="account.accountNumber">{{account.accountNumber}} {{account.accountName}}</option>
+          [value]="account.id"> {{account.accountName}}</option>
 </select>
 <hr>
 
-<div *ngIf="accountNumber !== ''; else infoText">
-  <div class="row">
-      <div class="col-md-5">
-        <label class="full-width">Account Id: </label>{{account.id}}
-      </div>
-    </div>
+<div *ngIf="id !== undefined; else infoText">
   <div class="row">
     <div class="col-md-5">
-      <label class="full-width">Account Number: </label>&nbsp;{{accountNumber}}
+      <label class="full-width">Account Number: </label>&nbsp;{{id}}
     </div>
   </div>
   <div class="row">
@@ -54,16 +49,7 @@
   <p>Please select an Account!</p>
 </ng-template>
 
-
-<!--<div *ngIf="accountNumber !== ' '">
-  <app-transactions></app-transactions>
-</div>
-
-<div class="col-md-7">
-    <router-outlet></router-outlet>
-  </div>-->
-
-<div *ngIf="accountNumber !== ' '">
+<div *ngIf="id !== undefined">
 <div class="row">
   <div class="col-md-6">
     <app-transactions></app-transactions>

@@ -1,8 +1,9 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {AccountsService} from '../../../accounts.service';
-import {TransactionsService} from '../../transactions.service';
+import {Account} from '../../../shared/account.model';
+import {DataStorageService} from '../../../shared/data-storage.service';
 
 @Component({
   selector: 'app-transaction-add',
@@ -12,22 +13,23 @@ import {TransactionsService} from '../../transactions.service';
 export class TransactionAddComponent implements OnInit {
   transactionForm: FormGroup;
   transactionTypes = ['Check', 'Withdrawal', 'Void'];
-  id: string;
-  returned  = false;
+  accountIndex: number;
+  returned = false;
   processed = false;
+  account: Account;
 
   constructor(private router: Router,
               private route: ActivatedRoute,
               private accountsService: AccountsService,
-              private transactionService: TransactionsService
+              private dataStorageService: DataStorageService
   ) {
   }
 
   ngOnInit() {
     this.route.params.subscribe((params: Params) => {
-      this.id = params['id'];
+      this.accountIndex = params['id'];
+      this.account = this.accountsService.getAccount(this.accountIndex);
       this.transactionForm = new FormGroup({
-        'accountId': new FormControl(this.id),
         'transactionDate': new FormControl(null, [Validators.required]),
         'amount': new FormControl(null, [Validators.required, Validators.pattern('(?=.*?\\d)^\\$?(([1-9]\\d{0,2}(,\\d{3})*)|\\d+)?(\\.\\d{1,2})?$'), Validators.minLength(1)]),
         'checkNumber': new FormControl(null, [Validators.required]),
@@ -40,8 +42,8 @@ export class TransactionAddComponent implements OnInit {
   }
 
   onSubmit() {
-    this.transactionService.addTransaction(this.transactionForm.value);
-    console.log(this.transactionForm.value);
+    this.accountsService.addTransaction(this.transactionForm.value, this.accountIndex);
+    this.dataStorageService.saveAccounts();
     this.transactionForm.reset();
     this.router.navigate(['personalBanker/accounts']);
   }

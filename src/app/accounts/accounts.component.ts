@@ -1,8 +1,10 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {Account} from '../shared/account.model';
+import {DataStorageService} from '../shared/data-storage.service';
 import {AccountsService} from '../accounts.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {Subscription} from 'rxjs';
+import {Subject, Subscription} from 'rxjs';
+import {AuthService} from '../auth/auth.service';
 
 @Component({
   selector: 'app-accounts',
@@ -11,15 +13,18 @@ import {Subscription} from 'rxjs';
 })
 export class AccountsComponent implements OnInit, OnDestroy {
   accounts: Account[];
-  accountNumber = '';
+  id = undefined;
   accountIndex = 0;
-  id = '';
   account: Account;
   isFetching = false;
   error = null;
   private errorSub: Subscription;
+  userId: string;
 
-  constructor(private accountsService: AccountsService, private route: ActivatedRoute,
+  constructor(private accountsService: AccountsService,
+              private dataStorageService: DataStorageService,
+              private route: ActivatedRoute,
+              private authService: AuthService,
               private router: Router) {
   }
 
@@ -28,34 +33,39 @@ export class AccountsComponent implements OnInit, OnDestroy {
       this.error = errorMessage;
     });
 
-    this.isFetching = true;
-    this.accountsService.getAccounts().subscribe(
-      accts => {
-        this.isFetching = false;
-        this.accounts = accts;
-      },
-      error => {
-        this.isFetching = false;
-        this.error = error.message;
-      }
-    );
+    // tslint:disable-next-line:no-shadowed-variable
+    this.dataStorageService.getAccounts().subscribe(accounts => {
+      this.accounts = accounts;
+    });
   }
 
   ngOnDestroy() {
     this.errorSub.unsubscribe();
+    // this.accountIndexSubject.unsubscribe();
   }
 
   onAccountSelected(element) {
-    this.accountNumber = element.target.value;
-    if (this.accountNumber !== '') {
-      this.account = this.accounts.find(account => account.accountNumber === this.accountNumber);
-      this.accountIndex = this.accounts.indexOf(this.account);
-      this.id = this.account.id;
-      this.accountsService.accountSelected.next(this.account);
+    const acctId = element.target.value;
+    if (acctId !== '') {
+      // tslint:disable-next-line:radix
+      this.id = parseInt(acctId);
     } else {
-      this.accountsService.accountSelected.next(undefined);
+      this.id = undefined;
+    }
+    // this.id = element.target.value;
+    if (this.id !== undefined) {
+      this.account = this.accounts.find(account => account.id === this.id);
+      this.accountIndex = this.accounts.indexOf(this.account);
+      this.accountsService.setSelectedAccount(this.accountIndex);
+      this.accountsService.selectedAccountSubject.next(this.account);
+      this.accountsService.accountIndexSubject.next(this.accountIndex);
+    } else {
       this.account = undefined;
-      this.router.navigate(['perssonalBanker/accounts']);
+      this.accountsService.setSelectedAccount(undefined);
+      this.id = undefined;
+      this.router.navigate(['/personalBanker/accounts']);
+      this.accountsService.selectedAccountSubject.next(undefined);
+      this.accountsService.accountIndexSubject.next(undefined);
     }
   }
 
@@ -64,9 +74,4 @@ export class AccountsComponent implements OnInit, OnDestroy {
       this.router.navigate(['/personalBanker/edit', this.accountIndex]);
     }
   }
-  onAddTransactions() {
-      if (this.account !== undefined) {
-        this.router.navigate(['/personalBanker/accounts/transaction/add', this.id]);
-      }
-    }
 }

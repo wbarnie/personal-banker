@@ -2,7 +2,6 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {AccountsService} from '../../../accounts.service';
-import {TransactionsService} from '../../transactions.service';
 import {Subscription} from 'rxjs';
 
 @Component({
@@ -15,7 +14,6 @@ export class TransactionEditComponent implements OnInit, OnDestroy {
   error: string;
   accountId: string;
   transactionIndex: number;
-  transactionId: string;
   transactionForm: FormGroup;
   transactionTypes = ['Check', 'Withdrawal', 'Void'];
   id: string;
@@ -24,8 +22,7 @@ export class TransactionEditComponent implements OnInit, OnDestroy {
 
   constructor(private router: Router,
               private route: ActivatedRoute,
-              private accountsService: AccountsService,
-              private transactionService: TransactionsService
+              private accountsService: AccountsService
   ) {
   }
 
@@ -33,11 +30,11 @@ export class TransactionEditComponent implements OnInit, OnDestroy {
     this.route.params
       .subscribe(
         (params: Params) => {
-          this.transactionId = params.id;
+          this.transactionIndex = params.id;
           this.initForm();
         }
       );
-    this.errorSub = this.transactionService.error.subscribe(errorMessage => {
+    this.errorSub = this.accountsService.error.subscribe(errorMessage => {
       this.error = errorMessage;
     });
   }
@@ -52,7 +49,7 @@ export class TransactionEditComponent implements OnInit, OnDestroy {
     let processed = false;
     let transactionType = '';
 
-    const transaction = this.transactionService.getTransactionByKey(this.transactionId);
+    const transaction = this.accountsService.getTransactionByIndex(this.transactionIndex);
     accountId = transaction.accountId;
     this.accountId = transaction.accountId;
     transactionDate = transaction.transactionDate;
@@ -62,7 +59,8 @@ export class TransactionEditComponent implements OnInit, OnDestroy {
     returned = transaction.returned;
     processed = transaction.processed;
     transactionType = transaction.transactionType;
-    this.transactionIndex = this.transactionService.getIndexByKey(transaction.id);
+
+    // this.transactionIndex = this.transactionService.getIndexByKey(transaction.id);
     this.transactionForm = new FormGroup({
       'accountId': new FormControl(accountId),
       'transactionDate': new FormControl(transactionDate, [Validators.required]),
@@ -78,20 +76,18 @@ export class TransactionEditComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.errorSub.unsubscribe();
   }
+
   onCancel() {
     this.router.navigate(['/personalBanker/accounts']);
   }
 
   onSubmit() {
-    console.log(this.transactionForm.value);
-    this.transactionService.updateTransaction(this.transactionIndex, this.transactionForm.value);
+    this.accountsService.updateTransaction(this.transactionIndex, this.transactionForm.value);
     this.onCancel();
   }
 
   onDeleteTransaction() {
-    this.transactionService.deleteTransaction(this.transactionIndex);
-    this.transactionService.getTransactions(this.accountId);
+    this.accountsService.deleteTransaction(this.transactionIndex);
     this.onCancel();
   }
-
 }

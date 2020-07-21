@@ -1,92 +1,101 @@
-import {Injectable} from '@angular/core';
+import {Injectable, OnInit} from '@angular/core';
 import {Account, AccountTypes} from './shared/account.model';
 import {Observable, Subject, throwError} from 'rxjs';
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {catchError, map} from 'rxjs/operators';
+import {Transaction} from './shared/transaction.model';
 
 @Injectable({providedIn: 'root'})
 export class AccountsService {
-  accountURL = 'https://personalbanker-34ced.firebaseio.com/accounts.json';
-  accountSelected = new Subject<Account>();
-  accountsArray = [];
+  accountsChanged = new Subject<Account[]>();
+  selectedAccountSubject = new Subject<Account>();
+  accountIndexSubject = new Subject<number>();
   error = new Subject<string>();
+  private accountIndex: number;
+  private accounts: Account[] = [];
+  private selectedAccountIndex;
 
   constructor(private http: HttpClient) {
   }
 
-  getAccounts(): Observable<Account[]> {
-    this.accountsArray = [];
-    let searchParams = new HttpParams();
-    searchParams = searchParams.append('print', 'pretty');
-    searchParams = searchParams.append('custom', 'key');
-    return this.http
-      .get<{ [key: string]: Account }>(
-        this.accountURL,
-        {
-          headers: new HttpHeaders({'Custom-Header': 'Hello'}),
-          params: searchParams,
-          responseType: 'json'
-        }
-      )
-      .pipe(
-        map(responseData => {
-          for (const key in responseData) {
-            if (responseData.hasOwnProperty(key)) {
-              this.accountsArray.push({...responseData[key], id: key});
-            }
-          }
-          return this.accountsArray;
-        }),
-        catchError(errorRes => {
-          // Send to analytics server
-          return throwError(errorRes);
-        })
-      );
+  setAccounts(accounts: Account[]) {
+    if (accounts !== undefined) {
+      this.accounts = accounts;
+      this.accountsChanged.next(this.accounts.slice());
+    }
+  }
+
+  setSelectedAccount(accountIndex: number) {
+    this.selectedAccountIndex = accountIndex;
+    this.accountIndexSubject.next(accountIndex);
+    this.selectedAccountSubject.next(this.accounts[accountIndex]);
+  }
+
+  getSelectedAccountIndex() {
+    return this.selectedAccountIndex;
   }
 
   getAccount(accountIndex: number): Account {
-    this.accountSelected.next(this.accountsArray[accountIndex]);
-    return this.accountsArray[accountIndex];
+    if (accountIndex !== undefined) {
+      this.selectedAccountIndex = accountIndex;
+      this.accountIndexSubject.next(accountIndex);
+      this.selectedAccountSubject.next(this.accounts[accountIndex]);
+      return this.accounts[accountIndex];
+    }
+  }
+
+  getAccounts() {
+    return this.accounts.slice();
   }
 
   updateAccount(index: number, account: Account) {
-    this.accountsArray[index] = account;
-
-    this.http
-      .put(
-        this.accountURL,
-        this.accountsArray
-      )
-      .subscribe(response => {
-        console.log(response);
-      });
+    this.accounts[index] = account;
+    this.accountsChanged.next(this.accounts.slice());
   }
 
   deleteAccount(index: number) {
-    this.accountsArray.splice(index, 1);
-    this.http
-      .put(
-        this.accountURL,
-        this.accountsArray
-      )
-      .subscribe(response => {
-        console.log(response);
-      });
+    this.accounts.splice(index, 1);
+    this.accountsChanged.next(this.accounts.slice());
   }
 
   addAccount(account: Account) {
-    this.http
-      .post(
-        this.accountURL,
-        account
-      )
-      .subscribe(
-        responseData => {
-          console.log(responseData);
-        },
-        error => {
-          this.error.next(error.message);
-        }
-      );
+    this.accounts.push(account);
+    this.accountsChanged.next(this.accounts.slice());
+  }
+
+  addTransaction(transaction: Transaction, accoutIdx: number) {
+    let account: Account;
+    account = this.accounts[accoutIdx];
+    if (account.transactions === undefined) {
+      account.transactions = [];
+      account.transactions.push(transaction);
+    } else {
+      account.transactions.push(transaction);
+    }
+    this.accounts[this.selectedAccountIndex] = account;
+    this.accountsChanged.next(this.accounts.slice());
+  }
+
+  updateTransaction(transactionIndex: number, transaction: Transaction) {
+    const account = this.accounts[this.selectedAccountIndex];
+    account.transactions[transactionIndex] = transaction;
+    this.accountsChanged.next();
+    // this.accountsChanged.next(this.accounts.slice());
+  }
+
+  deleteTransaction(transactionIndex: number) {
+    const account = this.accounts[this.selectedAccountIndex];
+    account.transactions.splice(transactionIndex, 1);
+    this.accountsChanged.next();
+  }
+
+  getTransactionByIndex(index: number): Transaction {
+    const account = this.accounts[this.selectedAccountIndex];
+    return account.transactions[index];
+  }
+
+  getTransactions(index: number): Transaction[] {
+    const account = this.accounts[index];
+    return account.transactions === undefined ? [] : account.transactions;
   }
 }

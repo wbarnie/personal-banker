@@ -3,6 +3,7 @@ import {AccountsService} from '../../accounts.service';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Subscription} from 'rxjs';
+import {DataStorageService} from '../../shared/data-storage.service';
 
 @Component({
   selector: 'app-account-edit',
@@ -18,6 +19,7 @@ export class AccountEditComponent implements OnInit, OnDestroy {
   error: string;
 
   constructor(private accountsService: AccountsService,
+              private dataStorageService: DataStorageService,
               private route: ActivatedRoute,
               private router: Router) {
   }
@@ -26,11 +28,8 @@ export class AccountEditComponent implements OnInit, OnDestroy {
     this.route.params
       .subscribe(
         (params: Params) => {
-          // this.id = params.id;
           this.accountIndex = +params.id;
           this.initForm();
-          // this.id = +params['id']; // use for number
-          // this.recipe = this.recipeService.getRecipe(this.id);
         }
       );
     this.errorSub = this.accountsService.error.subscribe(errorMessage => {
@@ -39,11 +38,10 @@ export class AccountEditComponent implements OnInit, OnDestroy {
   }
 
   onCancel() {
-    this.router.navigate(['/personalBanker/accounts']);
+    this.router.navigate(['personalBanker/accounts']);
   }
 
   onSubmit() {
-    console.log(this.accountEditForm.value);
     this.accountsService.updateAccount(this.accountIndex, this.accountEditForm.value);
     this.onCancel();
   }

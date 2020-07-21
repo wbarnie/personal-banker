@@ -9,7 +9,6 @@ import {AccountTypes} from './account.model';
 export class Transaction {
 
   constructor(
-    public id: string,
     public accountId: string,
     public transactionDate: Date,
     public amount: number,
