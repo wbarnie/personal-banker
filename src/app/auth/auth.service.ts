@@ -5,6 +5,7 @@ import {catchError, tap} from 'rxjs/operators';
 import {throwError, BehaviorSubject} from 'rxjs';
 
 import {User} from './user.model';
+import {environment} from '../../environments/environment';
 
 export interface AuthResponseData {
   kind: string;
@@ -20,8 +21,8 @@ export interface AuthResponseData {
 export class AuthService {
   user = new BehaviorSubject<User>(null);
   private tokenExpirationTimer: any;
-  urlNewUser = 'https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=AIzaSyCuQdeHX6hU3bvBnnbCrP1hChS6NqRLLZY';
-  urllogin = 'https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword?key=AIzaSyCuQdeHX6hU3bvBnnbCrP1hChS6NqRLLZY';
+  urlNewUser = 'https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=' + environment.authServiceapiKey;
+  urllogin = 'https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword?key=' +  environment.authServiceapiKey;
 
   constructor(private http: HttpClient, private router: Router) {
   }

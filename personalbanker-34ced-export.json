@@ -1,0 +1,13 @@
+{
+  "accounts" : [ {
+    "accountName" : "checking",
+    "accountNumber" : "wb12345",
+    "accountType" : "Checking",
+    "balance" : 23,
+    "bankName" : "wedewsfde",
+    "checkNumber" : "1234",
+    "dateCreated" : "2020-30-07",
+    "id" : 1596131013,
+    "userId" : "hIaYvncAdjMlt9nHTsXW4KPcN0p2"
+  } ]
+}

@@ -53,15 +53,18 @@ export class AccountEditComponent implements OnInit, OnDestroy {
   }
 
   private initForm() {
+    let id: number;
     let balance = 0.00;
     let bankName = '';
     let accountName = '';
     let checkNumber = '';
     let accountNumber = '';
     let accountType = '';
-    let dateCreated;
+    let dateCreated = new Date();
+    let transactions = [];
 
     const account = this.accountsService.getAccount(this.accountIndex);
+    id = account.id
     balance = account.balance;
     bankName = account.bankName;
     accountName = account.accountName;
@@ -69,7 +72,9 @@ export class AccountEditComponent implements OnInit, OnDestroy {
     accountNumber = account.accountNumber;
     accountType = account.accountType;
     dateCreated = account.dateCreated;
+    transactions = account.transactions;
     this.accountEditForm = new FormGroup({
+      'id': new FormControl(id),
       'bankName': new FormControl(bankName, [Validators.required, this.bankNameValidate.bind(this)]),
       'accountName': new FormControl(accountName, [Validators.required, this.accountNameValidate.bind(this)]),
       'accountNumber': new FormControl(accountNumber, [Validators.required]),

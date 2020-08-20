@@ -14,12 +14,12 @@ const appRoutes: Routes = [
   {path: 'personalBanker/auth', component: AuthComponent},
   {
     path: 'personalBanker/accounts', component: AccountsComponent, canActivate: [AuthGuard], children: [
-      {path: 'add', component: AccountAddComponent},
-      {path: 'edit/:id', component: AccountEditComponent},
       {path: 'transaction/add/:id', component: TransactionAddComponent},
       {path: 'transaction/edit/:id', component: TransactionEditComponent},
     ]
-  }
+  },
+  {path: 'personalBanker/account/add', component: AccountAddComponent, canActivate: [AuthGuard], pathMatch: 'full'},
+  {path: 'personalBanker/account/edit/:id', component: AccountEditComponent, canActivate: [AuthGuard], pathMatch: 'full'}
 ];
 
 @NgModule({

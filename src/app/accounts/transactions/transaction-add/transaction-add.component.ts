@@ -12,7 +12,7 @@ import {DataStorageService} from '../../../shared/data-storage.service';
 })
 export class TransactionAddComponent implements OnInit {
   transactionForm: FormGroup;
-  transactionTypes = ['Check', 'Withdrawal', 'Void'];
+  transactionTypes = ['Check', 'Withdrawal', 'Void', 'Deposit'];
   accountIndex: number;
   returned = false;
   processed = false;

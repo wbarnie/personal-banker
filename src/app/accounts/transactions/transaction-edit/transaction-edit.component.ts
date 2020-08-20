@@ -15,7 +15,7 @@ export class TransactionEditComponent implements OnInit, OnDestroy {
   accountId: string;
   transactionIndex: number;
   transactionForm: FormGroup;
-  transactionTypes = ['Check', 'Withdrawal', 'Void'];
+  transactionTypes = ['Check', 'Withdrawal', 'Void', 'Deposit'];
   id: string;
   returned = false;
   processed = false;

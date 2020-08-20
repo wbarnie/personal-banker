@@ -8,6 +8,9 @@
         <li routerLinkActive="active" *ngIf="isAuthenticated">
           <a routerLink="personalBanker/accounts">Accounts</a>
         </li>
+        <li routerLinkActive="active" *ngIf="isAuthenticated">
+          <a routerLink="personalBanker/account/add">Add Account</a>
+        </li>
         <li routerLinkActive="active" *ngIf="!isAuthenticated">
           <a routerLink="personalBanker/auth">Authenticate</a>
         </li>
@@ -19,7 +22,6 @@
         <li class="dropdown" appDropdown>
           <a style="cursor: pointer;" class="dropdown-toggle" role="button">Manage<span class="caret"></span></a>
           <ul class="dropdown-menu">
-            <li *ngIf="isAuthenticated"><a routerLink="personalBanker/accounts/add" style="cursor: pointer;">Add Account</a></li>
             <li *ngIf="accountSelectedIndex !== undefined"><a (click)="onAccountEdit()" style="cursor: pointer;">Edit
               Account</a></li>
             <li *ngIf="accountSelectedIndex !== undefined"><a (click)="onTransactionAdd()" style="cursor: pointer;">Add

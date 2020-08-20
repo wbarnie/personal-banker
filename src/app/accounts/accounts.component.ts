@@ -19,7 +19,6 @@ export class AccountsComponent implements OnInit, OnDestroy {
   isFetching = false;
   error = null;
   private errorSub: Subscription;
-  userId: string;
 
   constructor(private accountsService: AccountsService,
               private dataStorageService: DataStorageService,

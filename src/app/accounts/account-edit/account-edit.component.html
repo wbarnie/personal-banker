@@ -4,6 +4,57 @@
           <!-- Bank Name -->
           <div class="form-group">
             <label for="bankName">Bank Name</label>
+            <!-- id  -->
+            <div class="form-group">
+              <input
+                type="hidden"
+                id="id"
+                formControlName="id"
+                class="form-control">
+            </div>
+            <!-- End Id  -->
+
+
+           <!-- <div class="row" >
+                   <div class="col-xs-12" formArrayName="ingredients">
+                     <div
+                       class="row"
+                       *ngFor="let ingredientCtrl of recipeForm.get('ingredients').controls; let i = index"
+                       [formGroupName]="i"
+                       style="margin-top: 10px;">
+                       <div class="col-xs-8">
+                         <input
+                           type="text"
+                           class="form-control"
+                           formControlName="name">
+                       </div>
+                       <div class="col-xs-2">
+                         <input
+                           type="number"
+                           class="form-control"
+                           formControlName="amount">
+                       </div>
+                       <div class="col-xs-2">
+                         <button
+                           type="button"
+                           class="btn btn-danger"
+                           (click)="onDeleteIngredient(i)">X</button>
+                       </div>
+                     </div>
+                     <hr>
+                     <div class="row">
+                       <div class="col-xs-12">
+                         <button
+                           type="button"
+                           class="btn btn-success"
+                           (click)="onAddIngredient()">Add Ingredient</button>
+                       </div>
+                     </div>
+                   </div>
+                 </div>-->
+
+
+
             <input
               type="text"
               id="bankName"
@@ -91,7 +142,7 @@
           <div class="form-group">
             <label for="dateCreated">Date Created</label>
             <input
-              type="date"
+              type="text"
               readonly="readonly"
               id="dateCreated"
               formControlName="dateCreated"

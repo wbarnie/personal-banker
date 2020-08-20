@@ -2,8 +2,8 @@ import {Injectable, OnInit} from '@angular/core';
 import {Account, AccountTypes} from './shared/account.model';
 import {Observable, Subject, throwError} from 'rxjs';
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
-import {catchError, map} from 'rxjs/operators';
 import {Transaction} from './shared/transaction.model';
+import {AuthService} from './auth/auth.service';
 
 @Injectable({providedIn: 'root'})
 export class AccountsService {
@@ -11,11 +11,12 @@ export class AccountsService {
   selectedAccountSubject = new Subject<Account>();
   accountIndexSubject = new Subject<number>();
   error = new Subject<string>();
-  private accountIndex: number;
   private accounts: Account[] = [];
   private selectedAccountIndex;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient,
+              private authService: AuthService
+              ) {
   }
 
   setAccounts(accounts: Account[]) {
@@ -49,7 +50,19 @@ export class AccountsService {
   }
 
   updateAccount(index: number, account: Account) {
-    this.accounts[index] = account;
+    this.accounts[index].accountName = account.accountName;
+    this.accounts[index].accountNumber = account.accountNumber;
+    this.accounts[index].accountType = account.accountType;
+    this.accounts[index].balance = account.balance;
+    this.accounts[index].bankName = account.accountName;
+    this.accounts[index].checkNumber = account.checkNumber;
+
+    // this.dataStorageService.saveAccounts();
+
+    this.accountsChanged.next(this.accounts.slice());
+  }
+
+  refresh() {
     this.accountsChanged.next(this.accounts.slice());
   }
 
@@ -60,6 +73,7 @@ export class AccountsService {
 
   addAccount(account: Account) {
     this.accounts.push(account);
+    // this.dataStorageService.saveAccounts();
     this.accountsChanged.next(this.accounts.slice());
   }
 

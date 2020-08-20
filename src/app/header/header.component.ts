@@ -37,7 +37,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   onAccountEdit() {
-    this.router.navigate(['personalBanker/accounts/edit/', this.accountSelectedIndex]);
+    this.router.navigate(['personalBanker/account/edit/', this.accountSelectedIndex]);
   }
 
   onTransactionAdd() {
